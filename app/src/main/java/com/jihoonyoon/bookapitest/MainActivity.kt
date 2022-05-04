@@ -32,15 +32,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initRetrofit()
+        initSearchButton()
+        initArrowUI()
+    }
+
+    private fun initRetrofit(){
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         bookService = retrofit.create(BookService::class.java)
-
-        initSearchButton()
-        initArrowUI()
     }
 
     private fun initSearchButton(){
@@ -71,6 +74,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<BookDTO>, t: Throwable) {
                     Log.d(TAG, "onFailure: fail ${t.toString()}")
+                    binding.textView.visibility = View.VISIBLE
                 }
 
             })
@@ -101,6 +105,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initArrowUI(){
+        binding.backButton.isEnabled = false
+        binding.forwardButton.isEnabled = false
+
         binding.backButton.setOnClickListener {
             if(current > 10){
                 current -= 10
