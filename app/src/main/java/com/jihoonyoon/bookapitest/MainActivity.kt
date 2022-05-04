@@ -1,5 +1,6 @@
 package com.jihoonyoon.bookapitest
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getBook(query: String, start: Int){
-        bookService.getBooksByQuery(CLIENT_ID, CLIENT_KEY, query, start)
+        bookService.getBooksByQuery(BuildConfig.NAVER_CLIENT_ID, BuildConfig.NAVER_CLIENT_KEY, query, start)
             .enqueue(object : Callback<BookDTO> {
                 override fun onResponse(call: Call<BookDTO>, response: Response<BookDTO>) {
                     if (response.isSuccessful.not()) {
@@ -115,8 +116,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         private const val BASE_URL = "https://openapi.naver.com"
-        private const val CLIENT_ID = "ntVoXllcSlLiXgLnkG3f"
-        private const val CLIENT_KEY = "c505WhMLCN"
         private const val TAG = "MainActivity"
     }
 }
